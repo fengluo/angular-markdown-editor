@@ -1,0 +1,10 @@
+{
+  "name": "ghostdown",
+  "version": "0.0.1",
+  "dependencies": {
+    "angularjs": "latest",
+    "codemirror": "latest",
+    "showdown": "latest",
+    "dropzone": "latest"
+  }
+}
