@@ -520,9 +520,24 @@ CodeMirror.defineMIME("text/x-markdown", "markdown");
                         element.setAttribute("class", "dropzone");
 
                         var dropzone = new Dropzone(element, {
-                            url: "/article/imgupload",
+                            url: "http://127.0.0.1:5000/posts/upload",
                             success: function(file, response){
+                                var holderP = file.previewElement.closest("p");
+                                var preList = Array.prototype.slice.call(document.querySelectorAll('.CodeMirror-code pre'));
+                                var imgHolderMarkdown = preList.filter(function(element) {
+                                    return (/^(?:\{<(.*?)>\})?!(?:\[([^\n\]]*)\])(?:\(([^\n\]]*)\))?$/gim).test(element.textContent) && (element.querySelectorAll('span').length === 0);
+                                });
 
+                                var editorOrigVal = editor.getValue();
+                                var nth = 0;
+                                var newMarkdown = editorOrigVal.replace(/^(?:\{<(.*?)>\})?!(?:\[([^\n\]]*)\])(:\(([^\n\]]*)\))?$/gim, function (match, i, original){
+                                    nth++;
+                                    return (nth === (index+1)) ? (match + "(" + response.path +")") : match;
+                                });
+                                editor.setValue( newMarkdown );
+
+                                holderP.classList.remove("dropzone");
+                                holderP.innerHTML = '<img src="'+ response.path +'"/>';
                             }
                         });
                     }
