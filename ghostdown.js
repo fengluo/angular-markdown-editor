@@ -581,7 +581,8 @@ CodeMirror.defineMIME("text/x-markdown", "markdown");
         }
         return {
             restrict: 'AE',
-            link:link
+            link:link,
+            templateUrl: 'ghostdown.html'
         }
     }]);
     
